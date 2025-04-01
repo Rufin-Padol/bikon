@@ -1,0 +1,28 @@
+<?php
+class FactureController {
+    private $factureModel;
+    
+    public function __construct($db) {
+        $this->factureModel = new Facture($db);
+    }
+    
+    public function ajouterFacture() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $copies_saisie = isset($_POST['copies_saisie']) ? $_POST['copies_saisie'] : 0;
+            $copies_photocopie = isset($_POST['copies_photocopie']) ? $_POST['copies_photocopie'] : 0;
+            $copies_impression = isset($_POST['copies_impression']) ? $_POST['copies_impression'] : 0;
+            $format = $_POST['format'];
+            $accessoires = $_POST['accessoires'];
+            $total = $_POST['total'];
+            
+            $this->factureModel->ajouterFacture($copies_saisie, $copies_photocopie, $copies_impression, $format, $accessoires, $total);
+            header('Location: index.php?page=facture');
+            exit;
+        }
+    }
+    
+    public function afficherFactures() {
+        return $this->factureModel->obtenirFactures();
+    }
+}
+?>
